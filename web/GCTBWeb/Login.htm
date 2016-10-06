@@ -1,0 +1,32 @@
+<html>
+<head>
+<script language="JavaScript">
+window.opener = top;
+
+function openeBAN(URL)
+{
+	var newURL;
+	newURL=URL.substring(0,URL.indexOf("htm"))+"jsp";
+	window.open(newURL, "ahmain","width=950,height=700,top=0,left=0,status=yes,resizable=yes,scrollbars=yes,menubar=yes");
+	window.close();
+//<body OnLoad="openeBAN(document.URL);" onFocus="blur();">
+}
+
+function redirect()
+{
+  //window.opener=null;
+  //window.close();
+  window.open("Login.jsp", "eBAN","width=950,height=700,top=0,left=0,status=yes,resizable=yes,scrollbars=yes,menubar=yes");
+  //window.opener=newWin;
+  //window.close();
+  top.window.opener = top;
+  top.window.open('','_parent','');
+  //top.window.close();
+//<body onLoad="redirect()">
+}
+</script>
+<title>GM Billing launch page</title>
+<body onLoad="redirect()">
+
+</body>
+</html>

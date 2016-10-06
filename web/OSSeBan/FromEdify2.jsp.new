@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<TITLE></TITLE>
+</HEAD>
+<BODY>
+<%@ page import="DBUtilities.*,java.util.Enumeration,JavaUtil.*,HTMLUtil.HTMLBean"%>
+<%
+    session = request.getSession(false);
+    if (session != null)
+      session.invalidate();
+    session = request.getSession(true);
+    BANBean BAN = new BANBean();
+    HTMLBean HB = new HTMLBean();
+    OSSChargeBANBean chBAN = new OSSChargeBANBean();
+    CircuitBANBean ctBAN = new CircuitBANBean();
+    OSSCustomerBANBean cuBAN = new OSSCustomerBANBean();
+    CarrierBANBean caBAN = new CarrierBANBean();
+    SiteBANBean siteBAN = new SiteBANBean();
+    String SQL;
+    Enumeration User_Details;
+    DBAccess DBA = new DBAccess();
+    String System = "OSS";
+    session.setAttribute("System",System);
+    session.setAttribute("User_Id",request.getParameter("EWF_HIDDEN_username"));
+    //session.setAttribute("Group_Name",request.getParameter("EWF_HIDDEN_groupname"));
+    //SQL="Select User_Name from eban..eBan_User where Login_Id = '"+(String)request.getParameter("EWF_HIDDEN_username")+"'";
+    //DBA.startDB();
+    //session.setAttribute("User_Name",DBA.getValue(SQL,"P5"));
+    User_Details=DBA.getUser(System,(String)request.getParameter("EWF_HIDDEN_username"));
+    if (User_Details.hasMoreElements())
+    {
+      session.setAttribute("User_Name",User_Details.nextElement());
+      User_Details.nextElement(); //not used here
+      session.setAttribute("Group_Name",User_Details.nextElement());
+    }
+
+    BAN.setGlobalCustomerId(request.getParameter("EWF_HIDDEN_gcid"));
+    BAN.setEdifySetCustomer(true);
+    HB.setFromEdify(true);
+    BAN.setAccount_Id("");
+    BAN.setDivision_Id("");
+    chBAN.Reset();
+    ctBAN.Reset();
+    cuBAN.Reset();
+    caBAN.Reset();
+    siteBAN.Reset();
+
+    session.setAttribute("PageSent",request.getRequestURI());
+    String type = request.getParameter("EWF_HIDDEN_type");
+    session.setAttribute("BAN", BAN);
+    session.setAttribute("HB", HB);
+    session.setAttribute("chBAN", chBAN);
+    session.setAttribute("ctBAN", ctBAN);
+    session.setAttribute("cuBAN", cuBAN);
+    session.setAttribute("caBAN", caBAN);
+    session.setAttribute("siteBAN", siteBAN);
+    session.setAttribute("billingTeam", "Data");
+    session.setAttribute("DBA",DBA);
+    if (type == null)
+    {
+%>
+        <jsp:forward page="OSSBANMenu.jsp"/>
+<%  }
+    else if (type.equals("GD"))
+    {
+%>
+        <jsp:forward page="GDBANMenu.jsp"/>
+<%  }
+    else if (type.equals("QUERY"))
+    {
+      session.setAttribute("billingTeam", request.getParameter("billingTeam"));
+%>
+        <jsp:forward page="../query/addQuery.jsp"/>
+<%  }
+%>
+</BODY>
+</HTML>

@@ -1,0 +1,18 @@
+#navpulltab {
+	HEIGHT: 203px; LEFT: 414px; POSITION: absolute; TOP: 0px; VISIBILITY: visible; WIDTH: 114px; Z-INDEX: 1
+}
+#panel {
+	HEIGHT: 188px; LEFT: 462px; POSITION: absolute; TOP: 0px; VISIBILITY: hidden; WIDTH: 282px; Z-INDEX: 2
+}
+#global2 {
+	HEIGHT: 189px; LEFT: 464px; POSITION: absolute; TOP: 29px; VISIBILITY: hidden; WIDTH: 273px; Z-INDEX: 3
+}
+#country2 {
+	HEIGHT: 189px; LEFT: 464px; POSITION: absolute; TOP: 29px; VISIBILITY: hidden; WIDTH: 273px; Z-INDEX: 3
+}
+#padopen {
+	HEIGHT: 203px; LEFT: 414px; POSITION: absolute; TOP: 0px; VISIBILITY: hidden; WIDTH: 114px; Z-INDEX: 1
+}
+.width90 {
+	WIDTH: 90px
+}

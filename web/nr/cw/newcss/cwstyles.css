@@ -1,0 +1,99 @@
+A:hover {
+	COLOR: #039; TEXT-DECORATION: underline
+}
+A:active {
+	COLOR: #039; TEXT-DECORATION: none
+}
+A:unknown {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+BODY {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px; TEXT-DECORATION: none
+}
+TABLE {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px; TEXT-DECORATION: none
+}
+TD {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px; TEXT-DECORATION: none
+}
+TH {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px; TEXT-DECORATION: none
+}
+H1 {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px
+}
+H2 {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px
+}
+H3 {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 16px
+}
+H4 {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px
+}
+H5 {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px
+}
+.cwcopyright {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 11px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.cwcrumbs {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 10px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.cwnormal {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px; TEXT-DECORATION: none
+}
+.cwstrap {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 16px; FONT-WEIGHT: bold; TEXT-DECORATION: none
+}
+.linktable {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 16px; FONT-WEIGHT: 600; TEXT-DECORATION: none
+}
+.Navpad {
+	FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px; FONT-WEIGHT: bolder; TEXT-DECORATION: none
+}
+.sidebarbody {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px; TEXT-DECORATION: none
+}
+.sidebarhead {
+	COLOR: #ffffff; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 13px; FONT-WEIGHT: bolder; TEXT-DECORATION: none; TEXT-INDENT: 8px
+}
+A {
+	COLOR: #039; TEXT-DECORATION: none
+}
+.cwstock {
+	COLOR: #000000; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 11px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.cwnavpad {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 9px; FONT-WEIGHT: normal; TEXT-DECORATION: none
+}
+.cwsmall {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 11px; TEXT-DECORATION: none
+}
+.cwlarge {
+	COLOR: #666666; FONT-FAMILY: Arial, Helvetica, Geneva, Swiss, SunSans-Regular; FONT-SIZE: 15px; TEXT-DECORATION: none
+}
+.sm_ul_none {
+	LIST-STYLE: none
+}
+.sm_ul_solid {
+	LIST-STYLE: square
+}
+.home_news_link {
+	PADDING-LEFT: 8px
+}
+.home_news_link A {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+.home_news_link A:hover {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+.home_grey_link {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+.home_grey_link:hover {
+	COLOR: #666666; TEXT-DECORATION: underline
+}
+.textbox15 {
+	FONT: 12px Arial, Helvetica, sans-serif; TEXT-TRANSFORM: none; WIDTH: 40px
+}

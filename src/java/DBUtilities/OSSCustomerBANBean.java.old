@@ -1,0 +1,914 @@
+package DBUtilities;
+
+import java.sql.*;
+import java.util.Date;
+import java.math.BigInteger;
+import java.util.Vector;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+public class OSSCustomerBANBean extends BANBean
+{
+    private String SQL;
+    private String Global_Account_Manager="",Customer_Billing_Address_Lines[]={"","","","","","",""};
+    private String Customer_Contact="please Tel:  +44 (0)1908 833164 or fax +44 (0)1908 833152",Region_Code="";
+    private String Business_Unit="",Customer_Billing_Name="",Customer_Contact_Name="";
+    private String Customer_Billing_Address="";
+    private Hashtable ScreenData=new Hashtable();
+    protected Vector mandatory=new Vector();
+
+  public OSSCustomerBANBean ()
+  {
+    mandatory.clear();
+    mandatory.addElement("BAN_Summary");
+    //mandatory.addElement("Global_Customer_Name");
+    mandatory.addElement("Customer_Contact");
+    mandatory.addElement("Required_BAN_Effective_Dateh");
+    mandatory.addElement("Customer_Billing_Address");
+    mandatory.addElement("Account_Id");
+    mandatory.addElement("Customer_Billing_Name");
+    mandatory.addElement("Invoice_Region");
+    errored.addElement("");
+  }
+
+  public void Reset()
+  {
+    super.Reset();
+    Global_Account_Manager="";
+    Customer_Billing_Address_Lines[0]=Customer_Billing_Address_Lines[1]=Customer_Billing_Address_Lines[3]="";
+    Customer_Contact="please Tel:  +44 (0)1908 833164 or fax +44 (0)1908 833152";
+    Region_Code="";
+    Business_Unit="";
+    Customer_Billing_Name="";
+    Customer_Contact_Name="";
+    Customer_Billing_Address="";
+    Invoice_Region="";
+    setErrored("clear");
+  }
+  /*set Methods*/
+
+  public void setGlobalCustomerName(String CustomerName)
+  {
+   Global_Customer_Name = SU.isNull(CustomerName,"");
+  }
+  public void setGlobalCustomerIdfromName(String CustomerName)
+  {
+   String Base_Id;
+   int Counter=0;
+   Global_Customer_Id = SU.getAbbreviation(CustomerName,3);
+
+   Base_Id=Global_Customer_Id;
+   while ((CustomerExists()) && (Counter < 101))
+   {
+    Counter++;
+    Global_Customer_Id =Base_Id+Integer.toString(Counter);
+   }
+  }
+  public void setCustomer_Contact(String newCustomer_Contact)
+  {
+   Customer_Contact = SU.isNull(newCustomer_Contact,"");
+  }
+  public void setBusiness_Unit(String value)
+  {
+   Business_Unit = SU.isNull(value,"");
+  }
+  public void setRegion_Code(String value)
+  {
+   Region_Code = SU.isNull(value,"");
+  }
+  public void setCustomer_Billing_Name(String value)
+  {
+   Customer_Billing_Name = SU.isNull(value,"");
+  }
+  public void setCustomer_Billing_Address(String value)
+  {
+    Customer_Billing_Address=value;
+  }
+  public void setCustomer_Contact_Name( String value)
+  {
+    Customer_Contact_Name=value;
+  }
+  public void setErrored(String Item)
+  {
+    if (Item.startsWith("clear"))
+      errored.clear();
+    else
+      errored.addElement(Item);
+  }
+  public void setGlobal_Account_Manager(String newGlobal_Account_Manager)
+  {
+   Global_Account_Manager = SU.isNull(newGlobal_Account_Manager,"");
+  }
+  public void setGlobalCustomerId(String value)
+  {
+    super.setGlobalCustomerId(value);
+    /*Enumeration e;
+    StringBuffer SQLBuffer = new StringBuffer("");
+
+    //There will only be one acount, so get it!
+    SQLBuffer.append("Select Account_Id,OutGoing_Currency_Code from givn_ref..Invoice_Region");
+    SQLBuffer.append(" where Global_Customer_Id = '").append(Global_Customer_Id).append("'");
+    DBA.setDB("givn_ref");
+
+    e=DBA.getResults(SQLBuffer.toString(),P3);
+    //Datasource changes e=DBA.getResults(SQLBuffer.toString());
+
+    if (e.hasMoreElements())
+    {
+      Account_Id=SU.isNull((String)e.nextElement(),"");
+      if (e.hasMoreElements())
+      {
+        Currency_Desc=SU.isNull((String)e.nextElement(),"");
+      }
+    }*/
+   }
+  public void setAction(String value)
+  {
+    super.setAction(value);
+    if (value.compareTo("Create")==0)
+    {
+      Reset();
+      banIdentifier="";
+    }
+  }
+
+/*****************************************************************/
+  public void setParameter(String name,String value)
+  {
+    if (name.compareTo("Global_Customer_Name")==0)
+    {
+      if (Mode.compareTo("Create") == 0)
+      {
+        setGlobalCustomerIdfromName(value);
+      }
+      setGlobalCustomerName(value);
+      ScreenData.put("Global_Customer_Name",value);
+    }
+    else if (name.compareTo("Global_Account_Manager")==0)
+    {
+      setGlobal_Account_Manager(value);
+      ScreenData.put("Global_Account_Manager",value);
+    }
+    else if (name.compareTo("Customer_Contact")==0)
+    {
+      setCustomer_Contact(value);
+      ScreenData.put("Customer_Contact",value);
+    }
+    else if (name.compareTo("Required_BAN_Effective_Dateh")==0)
+    {
+     setRequired_BAN_Effective_Date(value);
+     ScreenData.put("Required_BAN_Effective_Dateh",value);
+    }
+    else if (name.compareTo("Inactive_Global_Customer")==0)
+    {
+      if (value.compareTo("") !=0 )
+      {
+        setCustomerfromList(value);
+        ScreenData.put("Global_Customer_Name",Global_Customer_Id);
+        Mode="Amend";
+      }
+   }
+    else if (name.compareTo("Invoice_Region")==0)
+    {
+      setInvoice_Region(value);
+      ScreenData.put("Invoice_Region",value);
+    }
+    else if (name.compareTo("Customer_Billing_Name")==0)
+    {
+      setCustomer_Billing_Name(value);
+      ScreenData.put("Customer_Billing_Name",value);
+    }
+    else if (name.compareTo("Account_Id")==0)
+    {
+      setAccount_Id(value);
+      ScreenData.put("Account_Id",value);
+    }
+    else if (name.compareTo("Customer_Billing_Address")==0)
+    {
+      setCustomer_Billing_Address(value);
+      ScreenData.put("Customer_Billing_Address",value);
+    }
+    else if (name.compareTo("BAN_Summary")==0)
+    {
+      setBAN_Summary(value);
+      ScreenData.put("BAN_Summary",value);
+    }
+    else if (name.compareTo("BAN_Reason")==0)
+    {
+      setBAN_Reason(value);
+    }
+    else if (name.compareTo("Customer_Contact_Name")==0)
+    {
+      setCustomer_Contact_Name(value);
+    }
+    else if (name.compareTo("Currency_Desc")==0)
+    {
+      if (value.compareTo("") != 0)
+      {
+        setCurrency_Desc(value);
+        ScreenData.put("Currency_Desc",value);
+      }
+    }
+}
+/*******************************************************************************/
+/*get Methods*/
+  public String getGlobal_Account_Manager()
+  {
+    return Global_Account_Manager;
+  }
+  public String getCustomer_Contact()
+  {
+    return Customer_Contact;
+  }
+  public String getCustomer_Contact_Name()
+  {
+    return Customer_Contact_Name;
+  }
+  public String getBusiness_Unit()
+  {
+    return Business_Unit;
+  }
+  public String getCustomer_Billing_Address()
+  {
+    return Customer_Billing_Address;
+  }
+  public String getCustomer_Billing_Name()
+  {
+    return Customer_Billing_Name;
+  }
+  public String getRegion_Code()
+  {
+    return Region_Code;
+  }
+  public String getMode(String FieldName)
+  {
+     if ((FieldName.compareTo("Account_Id") ==0) ||
+        (FieldName.compareTo("Global_Customer_Name") ==0))
+    {
+      if (Mode.compareTo("Amend") == 0)
+	  return "READONLY";
+      else
+	  return InputMode;
+    }
+    if (FieldName.compareTo("Inactive_Global_Customer") ==0)
+    {
+      if (Mode.compareTo("Amend") == 0)
+	  return "READONLY";
+      else
+	  return InputMode;
+    }
+    if (action.compareTo("Authorise") == 0)
+    {
+      return "READONLY";
+    }
+    if ((FieldName.compareTo("BAN_Summary") ==0) ||
+	    (FieldName.compareTo("BAN_Reason") ==0) ||
+	    (FieldName.compareTo("Effective_Date") ==0))
+    {
+      if ((action.compareTo("View") !=0 ) &&
+	  (action.compareTo("History") !=0 ) &&
+	  (action.compareTo("Authorise") !=0 ))
+	  return "";
+      else
+        return InputMode;
+    }
+    else
+    {
+      return InputMode;
+    }
+  }
+  public String getCustomerVisibility(String value)
+  {
+    return "";
+  }
+  /*******************************************************************************/
+public String getClass(String Item)
+{
+        if (!errored.isEmpty())
+	{
+	  if (errored.contains(Item))
+	    return "errored";
+	  else
+	  {
+	    if (mandatory.contains(Item))
+              return "mandatory";
+	    else
+	      return "optional";
+	  }
+    	}
+	else
+	{
+	  if (mandatory.contains(Item))
+            return "mandatory";
+	  else
+	    return "optional";
+	}
+}
+/******************************************************************************/
+public boolean isValid(String ButtonPressed)
+{
+	Enumeration FormFields=mandatory.elements();
+	setErrored("clear");
+        Message = "<font color=red><b>";
+	String FormField="";
+	String FieldName;
+	String value="";
+
+	if ((ButtonPressed.startsWith("Submit")) && (Mode.compareTo("Cease") !=0))
+	{
+	  while (FormFields.hasMoreElements())
+	  {
+	    FieldName=(String)FormFields.nextElement();
+	    FormField=SU.isNull((String)ScreenData.get(FieldName),"");
+	    if(FormField.compareTo("") == 0)
+	    {
+	      setErrored(FieldName);
+	    }
+	  }
+        }
+	if ((Mode.compareTo("Add")==0) && (!Account_Id.startsWith("09")))
+	{
+	  setErrored("Account_Id");
+	  Message = "<font color=red><b>The CCD Account number for OSS Accounts must start with '09'";
+	  return false;
+	}
+	//Account already exists for a 'Create'?
+	if ((Mode.compareTo("Add")==0) && (AccountExists()))
+	{
+	  setErrored("Account_Id");
+	  Message = "<font color=red><b>An Account with this Account Id already exists";
+	  return false;
+	}
+	if ((Mode.compareTo("Add")==0) && (AccountNameExists()))
+	{
+	  setErrored("Invoice_Region");
+	  Message = "<font color=red><b>An Account with this Customer Account Name already exists";
+	  return false;
+	}
+
+	if ((!errored.isEmpty()) && (errored.size() > 0))
+	{
+	    Message = "<font color=red><b>One or more mandatory fields (highlighted in red) are missing";
+	    return false;
+	}
+	else
+	  return true;
+}
+/*******************************************************************************/
+public boolean AccountExists()
+{
+
+  SQL = "Select 'Found' from givn_ref..Invoice_Region where Account_Id = '"+ Account_Id + "'";
+
+
+  if(DBA.getExists(SQL,P3))
+  //Datasource changes if(DBA.getExists(SQL))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+public boolean AccountNameExists()
+{
+
+  SQL = "Select 'Found' from givn_ref..Invoice_Region where Invoice_Region = '"+ Invoice_Region + "'";
+  SQL += " and Global_Customer_Id = '"+ Global_Customer_Id + "'";
+
+
+  if(DBA.getExists(SQL,P3))
+  //Datasource changes if(DBA.getExists(SQL))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+/*******************************************************************************/
+public boolean CustomerExists()
+{
+
+  SQL = "Select 'Found' from givn..Global_Customer where Global_Customer_Id = '"+ Global_Customer_Id + "'";
+
+  if(DBA.getExists(SQL,P3))
+  //Datasource changes if(DBA.getExists(SQL))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+/*******************************************************************************/
+ public boolean getCustomerBAN()
+ {
+    try{
+      if (DBA.Connect(PREPARE,P5))
+      {
+        SQL = "{call eban..get_OSS_Customer_BAN ";
+        SQL += "(?)}";
+	cstmt = DBA.Conn.prepareCall(SQL);
+	cstmt.setString(1,banIdentifier);
+        cstmt.execute();
+	RS = cstmt.getResultSet();
+
+	try
+	{
+	  if (RS.next())
+	  {
+	    banStatus=(RS.getString(1));
+	    Global_Customer_Id=RS.getString(2);
+	    Global_Customer_Name=RS.getString(3);
+	    Required_BAN_Effective_Dateh=RS.getDate(4);
+   	    BAN_Summary=RS.getString(5);
+    	    BAN_Reason=RS.getString(6);
+	    Global_Account_Manager=RS.getString(7);
+	    Invoice_Region=RS.getString(8);
+	    Customer_Contact=RS.getString(9);
+	    Business_Unit=RS.getString(10);
+	    Customer_Billing_Name=RS.getString(11);
+	    Customer_Contact_Name=RS.getString(12);
+	    Customer_Billing_Address_Lines[0]=RS.getString(13);
+	    Customer_Billing_Address_Lines[1]=RS.getString(14);
+	    Customer_Billing_Address_Lines[2]=RS.getString(15);
+	    Customer_Billing_Address_Lines[3]=RS.getString(16);
+	    Customer_Billing_Address_Lines[4]=RS.getString(17);
+	    Customer_Billing_Address_Lines[5]=RS.getString(18);
+	    Customer_Billing_Address_Lines[6]=RS.getString(19);
+	    rejectReason=RS.getString(20);
+	    Account_Id=RS.getString(21);
+	    setCurrency_Desc(RS.getString(22));
+	    Mode=(RS.getString(23));
+	  }
+          close();
+	  Customer_Billing_Address=SU.packTextArea(Customer_Billing_Address_Lines);
+	}
+	catch(java.sql.SQLException se)
+        {
+	  Message=se.getMessage();
+	  close();
+	  return false;
+        }
+      }
+    }
+    catch(java.sql.SQLException se)
+    {
+      Message=se.getMessage();
+      close();
+      return false;
+    }
+    catch(java.lang.NullPointerException se){Message="<font color=red><b>Null Pointer "+se.getMessage();return false;}//message set in underlying code
+    return true;
+ }
+/*****************************************************************************************/
+public boolean createCustomerBAN()
+{
+  Enumeration Customer_Billing_Address_UnPacked;
+  int rowcount=0,i=0;
+
+      if (Customer_Billing_Address.compareTo("") !=0 )
+      {
+	  Customer_Billing_Address_UnPacked = SU.unpackTextArea(Customer_Billing_Address);
+
+	  while ((Customer_Billing_Address_UnPacked.hasMoreElements()) && (i < 7))
+	  {
+	    Customer_Billing_Address_Lines[i]=(String)Customer_Billing_Address_UnPacked.nextElement();
+	    i++;
+	  }
+      }
+      while (i < 7)
+      {
+	Customer_Billing_Address_Lines[i]="";
+	i++;
+      }
+
+    try{
+	  if (DBA.Connect(WRITE,P5))
+	  {
+	    SQL = "{call eban..Create_OSS_Customer_BAN ";
+	    SQL += "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+
+	    cstmt = DBA.Conn.prepareCall(SQL);
+	    cstmt.setString(1,banStatus);
+	    cstmt.setString(2,Global_Customer_Id);
+	    cstmt.setString(3,Global_Customer_Name);
+	    cstmt.setString(4,BAN_Summary);
+	    cstmt.setDate(5,Required_BAN_Effective_Dateh);
+	    cstmt.setString(6,BAN_Reason);
+	    cstmt.setString(7,Global_Account_Manager);
+	    cstmt.setString(8,Invoice_Region );
+	    cstmt.setString(9,Customer_Contact );
+	    cstmt.setString(10,Customer_Billing_Name );
+	    cstmt.setString(11,Customer_Contact_Name );
+	    cstmt.setString(12,Customer_Billing_Address_Lines[0] );
+	    cstmt.setString(13,Customer_Billing_Address_Lines[1] );
+	    cstmt.setString(14,Customer_Billing_Address_Lines[2]);
+	    cstmt.setString(15,Customer_Billing_Address_Lines[3] );
+	    cstmt.setString(16,Customer_Billing_Address_Lines[4] );
+	    cstmt.setString(17,Customer_Billing_Address_Lines[5] );
+	    cstmt.setString(18,Customer_Billing_Address_Lines[6] );
+	    cstmt.setString(19,Mode);
+	    cstmt.setString(20,banCreatedBy);
+	    cstmt.setString(21,Account_Id);
+	    cstmt.setString(22,Currency_Desc);
+
+	    try
+	    {
+	      cstmt.execute();
+	      RS = cstmt.getResultSet();
+	      if (RS.next())
+	      {
+	        banIdentifier=RS.getString(1);
+	      }
+	      close();
+	    }
+	    catch(java.sql.SQLException se)
+	    {
+	      Message=se.getMessage();
+	      close();
+	      return false;
+	    }
+	  }
+	  else
+	  { //Failed to connect - message set in underlying code
+	    Message=DBA.Message;
+	    return false;
+	  }
+	}
+	catch(java.sql.SQLException se)
+	{
+	  Message=se.getMessage();
+	  close();
+	  return false;
+	}
+	catch(java.lang.NullPointerException se){Message="<font color=red><b>"+se.getMessage();return false;}//message set in underlying code
+	Message = "<font color=blue><b>BAN Id:-"+banIdentifier+" created";
+	return true;
+  }
+/**********************************************************************************************/
+  public boolean updateCustomerBAN()
+  {
+    int rowcount=0;
+    Enumeration Customer_Billing_Address_UnPacked;
+    int i=0;
+
+      if (Customer_Billing_Address.compareTo("") !=0 )
+      {
+	  Customer_Billing_Address_UnPacked = SU.unpackTextArea(Customer_Billing_Address);
+
+	  while ((Customer_Billing_Address_UnPacked.hasMoreElements()) && (i < 7))
+	  {
+	    Customer_Billing_Address_Lines[i]=(String)Customer_Billing_Address_UnPacked.nextElement();
+	    i++;
+	  }
+      }
+      while (i < 7)
+      {
+	Customer_Billing_Address_Lines[i]="";
+	i++;
+      }
+
+
+    try{
+      if (DBA.Connect(WRITE,P5))
+      {
+        SQL = "{call eban..update_OSS_Customer_BAN ";
+        SQL += "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+
+        cstmt = DBA.Conn.prepareCall(SQL);
+        cstmt.setString(1,banIdentifier);
+        cstmt.setString(2,banStatus);
+	cstmt.setString(3,Global_Customer_Name);
+	cstmt.setString(4,BAN_Summary);
+	cstmt.setDate(5,Required_BAN_Effective_Dateh);
+	cstmt.setString(6,BAN_Reason);
+	cstmt.setString(7,Global_Account_Manager);
+	cstmt.setString(8,Invoice_Region );
+	cstmt.setString(9,Customer_Contact );
+	cstmt.setString(10,Business_Unit );
+	cstmt.setString(11,Customer_Billing_Name );
+	cstmt.setString(12,Customer_Contact_Name );
+	cstmt.setString(13,Customer_Billing_Address_Lines[0] );
+	cstmt.setString(14,Customer_Billing_Address_Lines[1] );
+	cstmt.setString(15,Customer_Billing_Address_Lines[2]);
+	cstmt.setString(16,Customer_Billing_Address_Lines[3] );
+	cstmt.setString(17,Customer_Billing_Address_Lines[4] );
+	cstmt.setString(18,Customer_Billing_Address_Lines[5] );
+	cstmt.setString(19,Customer_Billing_Address_Lines[6] );
+	cstmt.setString(20,userId);
+	cstmt.setString(21,rejectReason);
+	cstmt.setString(22,Account_Id);
+	cstmt.setString(23,Currency_Desc);
+
+        cstmt.execute();
+        rowcount=cstmt.getUpdateCount();
+	closeupdate();
+	if (rowcount != 1)
+	{
+	  Message="Error! - "+Integer.toString(rowcount) + " Rows Updated";
+	  return false;
+	}
+      }
+    }
+    catch(java.sql.SQLException se)
+    {
+      Message=se.getMessage();
+      closeupdate();
+      return false;
+    }
+    catch(java.lang.NullPointerException se){Message="<font color=red><b>"+se.getMessage();return false;}//message set in underlying code
+    //close();
+    Message = "<font color=blue><b>BAN Id:-"+banIdentifier+" "+action;
+    if (action.endsWith("e"))
+    {
+      Message=Message+"d";
+    }
+    else
+    {
+      Message=Message+"ed";
+    }
+    return true;
+  }
+/*********************************************************************/
+public boolean AuthoriseCustomerBAN()
+{
+    int res=0;
+
+    try{
+      if (DBA.Connect(WRITE,P3))
+      {
+        if (Mode.compareTo("Create") ==0)
+        {
+	  SQL = "{call givn..Create_OSS_Customer ";
+	  SQL += "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+
+	  cstmt = DBA.Conn.prepareCall(SQL);
+	  cstmt.setString(1,Global_Customer_Id);
+	  cstmt.setString(2,Global_Customer_Name);
+	  cstmt.setString(3,Global_Account_Manager);
+	  cstmt.setString(4,Customer_Contact );
+	  cstmt.setString(5,Customer_Billing_Name );
+	  cstmt.setString(6,Customer_Contact_Name );
+	  cstmt.setString(7,Customer_Billing_Address_Lines[0] );
+	  cstmt.setString(8,Customer_Billing_Address_Lines[1] );
+	  cstmt.setString(9,Customer_Billing_Address_Lines[2]);
+	  cstmt.setString(10,Customer_Billing_Address_Lines[3] );
+	  cstmt.setString(11,Customer_Billing_Address_Lines[4] );
+	  cstmt.setString(12,Customer_Billing_Address_Lines[5] );
+	  cstmt.setString(13,Customer_Billing_Address_Lines[6] );
+	  cstmt.setString(14,Account_Id);
+	  cstmt.setString(15,Currency_Desc);
+	  cstmt.setDate(16,Required_BAN_Effective_Dateh);
+	  cstmt.setString(17, banIdentifier);
+	}
+	else if (Mode.compareTo("Add") ==0)
+	{
+	  SQL = "{call givn_ref..Create_Account ";
+	  SQL += "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+
+	  cstmt = DBA.Conn.prepareCall(SQL);
+
+	  cstmt.setString(1,Global_Customer_Id);
+	  cstmt.setString(2,Global_Account_Manager);
+	  cstmt.setString(3,Customer_Billing_Name);
+	  cstmt.setString(4,Customer_Contact);
+	  cstmt.setString(5,Customer_Contact_Name );
+	  cstmt.setString(6,Customer_Billing_Address_Lines[0] );
+	  cstmt.setString(7,Customer_Billing_Address_Lines[1] );
+	  cstmt.setString(8,Customer_Billing_Address_Lines[2]);
+	  cstmt.setString(9,Customer_Billing_Address_Lines[3] );
+	  cstmt.setString(10,Customer_Billing_Address_Lines[4] );
+	  cstmt.setString(11,Customer_Billing_Address_Lines[5] );
+	  cstmt.setString(12,Customer_Billing_Address_Lines[6] );
+	  cstmt.setString(13,Account_Id);
+	  cstmt.setString(14,Currency_Desc);
+	  cstmt.setString(15, banIdentifier);
+	  cstmt.setString(16, Invoice_Region);
+	}
+        else
+	{
+	  SQL = "{call givn_ref..Update_Account ";
+	  SQL += "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+
+	  cstmt = DBA.Conn.prepareCall(SQL);
+	  cstmt.setString(1,Global_Customer_Id);
+	  cstmt.setString(2,Global_Customer_Name);
+	  cstmt.setString(3,Global_Account_Manager);
+	  cstmt.setString(4,Customer_Contact );
+	  cstmt.setString(5,Customer_Billing_Name );
+	  cstmt.setString(6,Customer_Contact_Name );
+	  cstmt.setString(7,Customer_Billing_Address_Lines[0] );
+	  cstmt.setString(8,Customer_Billing_Address_Lines[1] );
+	  cstmt.setString(9,Customer_Billing_Address_Lines[2]);
+	  cstmt.setString(10,Customer_Billing_Address_Lines[3] );
+	  cstmt.setString(11,Customer_Billing_Address_Lines[4] );
+	  cstmt.setString(12,Customer_Billing_Address_Lines[5] );
+	  cstmt.setString(13,Customer_Billing_Address_Lines[6] );
+	  cstmt.setString(14,Account_Id);
+	  cstmt.setString(15,Currency_Desc);
+	  cstmt.setString(16, banIdentifier);
+	  cstmt.setString(17, Invoice_Region);
+	}
+        try
+	{
+	  cstmt.execute();
+	  close();
+	  //Now Archive the BAN
+
+	  DBA.Connect(WRITE,P5);
+
+	  SQL = "{call eban..Archive_BAN ";
+	  SQL += "(?,?)}";
+
+	  cstmt = DBA.Conn.prepareCall(SQL);
+
+	  cstmt.setString(1,banIdentifier);
+	  cstmt.setString(2,"Customer Account");
+	  res=cstmt.executeUpdate();
+
+	  if (res!=1)
+	  {
+	    Message="Warning-Your BAN was implemented, but could not be archived";
+	    close();
+	    return false;
+	  }
+	}
+	catch(java.sql.SQLException se)
+	{
+	  Message=se.getMessage();
+	  close();
+	  return false;
+	}
+      }
+      else
+      { //Failed to connect - message set in underlying code
+	Message=DBA.Message;
+	return false;
+      }
+    }
+    catch(java.sql.SQLException se)
+    {
+      Message=se.getMessage();
+      close();
+      return false;
+    }
+    catch(java.lang.NullPointerException se){Message="<font color=red><b>"+se.getMessage();return false;}//message set in underlying code
+    Message = "<font color=blue><b>BAN Id:-"+banIdentifier+" implemented";
+    return true;
+}
+ /********************************************************************/
+/*  private void setCustomerHeader()
+  {
+    String imagename1,imagename2;
+    if (OrderBy==1)
+    {
+      imagename1="sorted_by.gif";
+      imagename2="sort_by.gif";
+    }
+    else
+    {
+      imagename2="sorted_by.gif";
+      imagename1="sort_by.gif";
+    }
+        String[] head ={"BAN Id","Status","BAN Id","Invoice Region","Global Srv Reference","Required Date","BAN Type","Credit/Debit","Description"};
+	header="<table border="+border+"><tr class=gridHeader>";
+	header+="<td class=gridHeader NOWRAP width=110>BAN Id</td><td class=gridHeader NOWRAP width=75>Status<br>&nbsp<image name=GSR onclick=\"sendOrderBy(2)\" align=right width=13 height=8 src=\"../nr/cw/newimages/"+imagename1+"\"> </td>";
+	header+="<td class=gridHeader NOWRAP width=120>Invoice Region</td><td class=gridHeader NOWRAP width=125>Global Service<br>Reference<image onclick=\"sendOrderBy(4)\" name=GSR valign=bottom align=right width=13 height=8 src=\"../nr/cw/newimages/"+imagename2+"\"></td>";
+	header+="<td class=gridHeader NOWRAP width=80>Required<br>Date<td class=gridHeader NOWRAP width=90>BAN Type</td>";
+	header+="<td class=gridHeader NOWRAP width=90>Charge Type<td class=gridHeader NOWRAP width=52>Credit/<br>Debit</td>";
+	header+="<td class=gridHeader NOWRAP width=105>Description</td><td class=gridHeader NOWRAP width=45>Select</td><td width=10 bgcolor=#FFFFFF>&nbsp</td></tr></table>";
+	columns=9;
+}*/
+/*************************************************************************************/
+  public String getCustomerBanList()
+  {
+	int counter=0;
+	String grid;
+	String RadioButton;
+	int rowcount;
+	BigInteger rows = new BigInteger("0");
+	grid="";
+	String gridClass;
+
+	//setHeader();
+
+	//RadioButton="<td width=100 bgcolor=lightblue ><INPUT type='radio' id='Select' name='Select' ";
+	RadioButton="width=45 align=center><img src=\"../nr/cw/newimages/icon_edit.gif\" width=20 onClick=\"sendSelected('";
+    try{
+      if (DBA.Connect(PREPARE,P5))
+      {
+	grid="";
+	grid=grid+"<table border ="+border+">";
+	rowcount = 0;
+
+        SQL = "{call eban..listBANs ";
+        SQL += "(?,?)}";
+	cstmt = DBA.Conn.prepareCall(SQL);
+	cstmt.setString(1,action);
+	cstmt.setString(2,OrderBy);
+        cstmt.execute();
+	RS = cstmt.getResultSet();
+	try
+	{
+	  while (RS.next())
+	  {
+	    rowcount++;
+	    rows = BigInteger.valueOf(rowcount);
+	    //Alternate row colours
+	    if (rows.testBit(0))
+	    {//An odd number
+	      gridClass="grid1 ";
+	    }
+	    else
+	    {
+	      gridClass="grid2 ";
+	    }
+
+	    for(counter=1;counter<columns+1;counter++)
+	    {
+	      grid=grid+"<td class="+gridClass+RS.getString(counter)+"</td>";
+	    }
+	    //Add the extra generated column for the radio button
+	    grid=grid+"<td class="+gridClass+RadioButton+RS.getString(counter)+"')\"></td></tr>";
+	    //End the table
+	  }
+	  grid=grid+"</table>";
+	  // Clean up after ourselves
+	  close();
+	}
+	catch(java.sql.SQLException se)
+        {
+	  Message=se.getMessage();
+	  close();
+	  return Message;
+        }
+      }
+    }
+    catch(java.sql.SQLException se)
+    {
+      Message=se.getMessage();
+      return Message;
+    }
+    catch(java.lang.NullPointerException se){Message="<font color=red><b>Null Pointer "+se.getMessage();return Message;}//message set in underlying code
+    return grid;
+  }
+/*************************************************************************************/
+ public boolean getCustomer()
+ {
+    try{
+      if (DBA.Connect(PREPARE,P3))
+      {
+        SQL = "{call givn..get_OSS_Customer ";
+        SQL += "(?)}";
+	cstmt = DBA.Conn.prepareCall(SQL);
+	cstmt.setString(1,Account_Id);
+        cstmt.execute();
+	RS = cstmt.getResultSet();
+
+	try
+	{
+	  if (RS.next())
+	  {
+	    Global_Customer_Name=RS.getString(1);
+	    Global_Account_Manager=RS.getString(2);
+	    Customer_Contact=RS.getString(3);
+	    Customer_Billing_Name=RS.getString(4);
+	    Customer_Contact_Name=RS.getString(5);
+	    Customer_Billing_Address_Lines[0]=RS.getString(6);
+	    Customer_Billing_Address_Lines[1]=RS.getString(7);
+	    Customer_Billing_Address_Lines[2]=RS.getString(8);
+	    Customer_Billing_Address_Lines[3]=RS.getString(9);
+	    Customer_Billing_Address_Lines[4]=RS.getString(10);
+	    Customer_Billing_Address_Lines[5]=RS.getString(11);
+    	    Customer_Billing_Address_Lines[6]=RS.getString(12);
+	    setCurrency_Desc(RS.getString(13));
+	    Invoice_Region=(RS.getString(14));
+	  }
+	  Customer_Billing_Address=SU.packTextArea(Customer_Billing_Address_Lines);
+	  close();
+	}
+	catch(java.sql.SQLException se)
+        {
+	  Message=se.getMessage();
+	  close();
+	  return false;
+        }
+      }
+    }
+    catch(java.sql.SQLException se)
+    {
+      Message=se.getMessage();
+      close();
+      return false;
+    }
+    catch(java.lang.NullPointerException se){Message="<font color=red><b>Null Pointer "+se.getMessage();return false;}//message set in underlying code
+    return true;
+ }
+/************************************************************************************************/
+}

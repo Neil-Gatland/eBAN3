@@ -1,0 +1,19 @@
+<html>
+<head>
+<script language="JavaScript">
+window.opener = top;
+
+function openeBAN(URL)
+{
+	var newURL;
+	newURL=URL.substring(0,URL.indexOf("htm"))+"jsp";
+	window.open(newURL, "ahmain","width=950,height=700,top=0,left=0,status=yes,resizable=yes,scrollbars=yes,menubar=yes");
+	window.close();
+}
+</script>
+<title>Ad Hoc Billing</title>
+
+<body OnLoad="openeBAN(document.URL);"
+onFocus="blur();">
+</body>
+</html>

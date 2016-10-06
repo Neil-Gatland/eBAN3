@@ -1,0 +1,13 @@
+<div id="ie5menu" class="skin0" onMouseover="highlightie5()" onMouseout="lowlightie5()" onClick="jumptoie5();">
+<div class="menuitems" url="Asc">Sort Ascending</div>
+<hr>
+<div class="menuitems" url="desc">Sort Descending</div>
+</div>
+<script language="JavaScript1.2">
+if (document.all && window.print) 
+{
+	ie5menu.className = menuskin;
+	document.body.oncontextmenu = showmenuie5;
+	document.body.onclick = hidemenuie5;
+}
+</script>

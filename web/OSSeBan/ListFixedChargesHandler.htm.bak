@@ -1,0 +1,124 @@
+<html>
+<head>
+<script language="JavaScript" src="../includes/eBanfunctions.js">
+</script>
+<script language="JavaScript" src="../includes/RightClick.js">
+</script>
+<title>eBan</title>
+<link rel="stylesheet" type="text/css" href="../nr/cw/newcss/world_ie.css">
+<meta http-equiv="REFRESH" content="1801; url=DesktopLogon.jsp?type=t">
+<meta http-equiv="PRAGMA" content="NO-CACHE">
+<meta http-equiv="EXPIRES" content="-1">
+</head>
+<body topmargin="0" leftmargin="0" marginleft="0" margintop="0">
+
+
+
+<a name="top"></a>
+<table id=1 border=0 width="100%">
+  <tr>
+    <td colspan=3>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#003399" class="headerfooter">
+	<tr>
+		<td width="10">&nbsp;</td>
+		<td width="332">
+		<img src="../nr/cw/newimages/logo3.gif" border="0" width="195" height="25" align="middle">
+		</td>
+		<td width="183">&nbsp;
+		<br>
+
+		</td>
+		<td>&nbsp;
+		</td>
+		<td valign="bottom" align="right">&nbsp;
+		</td>
+                    <td width="26">&nbsp;</td>
+		<td width="10">&nbsp;</td>
+	</tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#003399" class="headerfooter">
+	<tr>
+		<td width="13">
+<img src="../nr/cw/newimages/stripe_upper.gif" alt="" border="0" width="13" height="7">
+</td>
+		<td width="9">
+<img src="../nr/cw/newimages/chevron_upper.gif" alt="" border="0" width="9" height="7">
+</td>
+		<td>
+<img src="../nr/cw/newimages/stripe_upper.gif" alt="" border="0" width="100%" height="7">
+</td>
+	</tr>
+</table>
+
+
+    </td>
+  </tr>
+  <tr><!-- This row holds the local menu bar-->
+    <td colspan=3>
+      <form name="ListFixedCharges" method="post" action="ListFixedChargesHandler.jsp">
+        <table cellSpacing=0 cellPadding=0 width="100%" border=0 class="headerfooter"><tr><td class=gridheader><SPAN onmouseover="Open_Menu('Go To')" style="WIDTH: 100%; POSITION: absolute; TOP: 40px" onmouseout="Close_Menu('Go To')">
+<Button class="menu_bar">Go To<SPAN id="Go To"style="LEFT: 0px; VISIBILITY: hidden; WIDTH: 100px; POSITION: absolute; TOP: 27px"><TABLE cellSpacing=0 cellPadding=0 width=220px border=2>
+<TR><TD class=grid1><button class=dynamic_menu onClick=""> </button></TD></TR><TR><TD class=grid1><button class=dynamic_menu  id="Create BAN Menu" onMouseOver="menuOver('Create BAN Menu');" onMouseOut="menuOut('Create BAN Menu');" onClick="submitForm(this)">Create BAN Menu</button></TD></TR><TR><TD class=grid1><button class=dynamic_menu onClick=""> </button></TD></TR><TR><TD class=grid1><button class=dynamic_menu onClick=""> </button></TD></TR></TABLE></SPAN></SPAN></TD><TD class=gridheader><SPAN style="WIDTH: 100%; POSITION: absolute; TOP: 40px">
+<Button class="menu_bar">&nbsp</SPAN></TD><TD class=gridheader><SPAN style="WIDTH: 100%; POSITION: absolute; TOP: 40px">
+<Button class="menu_bar">&nbsp</SPAN></TD><TD class=gridheader><SPAN style="WIDTH: 100%; POSITION: absolute; TOP: 40px">
+<Button class="menu_bar">&nbsp</SPAN></TD><TD class=gridheader><SPAN style="WIDTH: 100%; POSITION: absolute; TOP: 40px">
+<Button class="menu_bar">&nbsp</SPAN></TD><TD class=gridheader><SPAN style="WIDTH: 100%; POSITION: absolute; TOP: 40px">
+<Button class="menu_bar">&nbsp</SPAN></TD><TD class=gridheader><SPAN style="WIDTH: 100%; POSITION: absolute; TOP: 40px">
+<Button class="menu_bar">&nbsp</SPAN></TD><TD class=gridheader><SPAN style="WIDTH: 100%; POSITION: absolute; TOP: 40px">
+<Button class="menu_bar">&nbsp</SPAN></TD><TD class=gridheader><SPAN style="WIDTH: 100%; POSITION: absolute; TOP: 40px">
+<Button class="menu_bar">&nbsp</SPAN></TD></tr></table>
+        <input name="ButtonPressed" type=hidden value="">
+        <input type=hidden name="Charge_Id" value=" ">
+	<input type=hidden name="OrderBy" value="">
+	<input type=hidden name="Description" value="">
+    </td>
+  </tr>
+  <tr>
+   <td colspan=3>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" id=2>
+      <tr id=2>
+	<!-- this is a spacer column-->
+	<td width="1" id=2>&nbsp;</td>
+	<td width="1" valign="top" align="left" id=2>
+	</td>
+	<td width="12" id=2><!-- a spacer column-->
+	  &nbsp;
+	</td>
+	<td valign="top" id=2>
+	  <h2 align="left">List Fixed Charges</h2>
+	  <table width="100%" border="0" id=3>
+	    <tr>
+	      <td colspan="6" width=100% class=bluebold>
+
+
+              <td>
+            </tr>
+            <tr>
+              <td><b>Customer:</b></td>
+              <td class=bluebold>Accenture                                                                                           </td>
+            </tr>
+            <tr>
+              <td colspan="6">
+	        <br><table border=0><tr class=gridHeader><tr><td class=gridHeader NOWRAP valign=top width=450><button class=grid_menu>Description</button></td><td class=gridHeader NOWRAP valign=top width=60><button class=grid_menu>Amount</button></td><td class=gridHeader NOWRAP valign=top width=198><button class=grid_menu>Charge Payable Date</button></td><td class=gridHeader NOWRAP valign=top width=200><button class=grid_menu></button></td><td class=gridHeader NOWRAP valign=top width=45><button class=grid_menu>Select</button></td><td width=10 bgcolor=#FFFFFF>&nbsp</td></tr><TR><TD class=grid1><TABLE cellSpacing=0 cellPadding=0 border=0>
+<TR><TD class=grid1><iframe width=445px scrolling=no hspace=0 marginheight=0 marginwidth=0 src="filterInput.jsp?name=Description&value=All" style="height:18px;"></iframe></tr></td></table></TD><TD class=grid1><SPAN id=Amount style="VISIBILITY: visible; WIDTH: 60px; POSITION: absolute; TOP: 177px"></TD><TD class=grid1><TABLE cellSpacing=0 cellPadding=0 border=0>
+<TR><TD class=grid1><SELECT style="width:196px" NAME='List_Month2' size=1  onChange='t<OPTION VALUE="All">All</OPTION>his.form.submit()'><OPTION VALUE='December 2006'>December 2006</OPTION><OPTION VALUE='November 2006'>November 2006</OPTION><OPTION VALUE='October 2006'>October 2006</OPTION><OPTION VALUE='September 2006'>September 2006</OPTION><OPTION VALUE='August 2006'>August 2006</OPTION><OPTION VALUE='July 2006'>July 2006</OPTION><OPTION VALUE='June 2006' SELECTED>June 2006</OPTION><OPTION VALUE='May 2006'>May 2006</OPTION><OPTION VALUE='April 2006'>April 2006</OPTION><OPTION VALUE='March 2006'>March 2006</OPTION><OPTION VALUE='February 2006'>February 2006</OPTION><OPTION VALUE='January 2006'>January 2006</OPTION><OPTION VALUE='December 2005'>December 2005</OPTION><OPTION VALUE='November 2005'>November 2005</OPTION><OPTION VALUE='October 2005'>October 2005</OPTION><OPTION VALUE='September 2005'>September 2005</OPTION><OPTION VALUE='August 2005'>August 2005</OPTION><OPTION VALUE='July 2005'>July 2005</OPTION><OPTION VALUE='June 2005'>June 2005</OPTION><OPTION VALUE='May 2005'>May 2005</OPTION><OPTION VALUE='April 2005'>April 2005</OPTION><OPTION VALUE='March 2005'>March 2005</OPTION><OPTION VALUE='February 2005'>February 2005</OPTION><OPTION VALUE='January 2005'>January 2005</OPTION><OPTION VALUE='December 2004'>December 2004</OPTION><OPTION VALUE='November 2004'>November 2004</OPTION><OPTION VALUE='October 2004'>October 2004</OPTION><OPTION VALUE='September 2004'>September 2004</OPTION><OPTION VALUE='August 2004'>August 2004</OPTION><OPTION VALUE='July 2004'>July 2004</OPTION><OPTION VALUE='June 2004'>June 2004</OPTION><OPTION VALUE='May 2004'>May 2004</OPTION><OPTION VALUE='April 2004'>April 2004</OPTION><OPTION VALUE='March 2004'>March 2004</OPTION><OPTION VALUE='February 2004'>February 2004</OPTION><OPTION VALUE='January 2004'>January 2004</OPTION><OPTION VALUE='December 2003'>December 2003</OPTION><OPTION VALUE='November 2003'>November 2003</OPTION><OPTION VALUE='October 2003'>October 2003</OPTION><OPTION VALUE='September 2003'>September 2003</OPTION><OPTION VALUE='August 2003'>August 2003</OPTION><OPTION VALUE='July 2003'>July 2003</OPTION><OPTION VALUE='June 2003'>June 2003</OPTION><OPTION VALUE='May 2003'>May 2003</OPTION><OPTION VALUE='April 2003'>April 2003</OPTION><OPTION VALUE='March 2003'>March 2003</OPTION><OPTION VALUE='February 2003'>February 2003</OPTION><OPTION VALUE='January 2003'>January 2003</OPTION><OPTION VALUE='December 2002'>December 2002</OPTION><OPTION VALUE='November 2002'>November 2002</OPTION><OPTION VALUE='October 2002'>October 2002</OPTION><OPTION VALUE='September 2002'>September 2002</OPTION><OPTION VALUE='August 2002'>August 2002</OPTION><OPTION VALUE='July 2002'>July 2002</OPTION><OPTION VALUE='June 2002'>June 2002</OPTION><OPTION VALUE='May 2002'>May 2002</OPTION><OPTION VALUE='April 2002'>April 2002</OPTION><OPTION VALUE='March 2002'>March 2002</OPTION><OPTION VALUE='February 2002'>February 2002</OPTION><OPTION VALUE='January 2002'>January 2002</OPTION><OPTION VALUE='December 2001'>December 2001</OPTION><OPTION VALUE='November 2001'>November 2001</OPTION><OPTION VALUE='October 2001'>October 2001</OPTION><OPTION VALUE='September 2001'>September 2001</OPTION><OPTION VALUE='August 2001'>August 2001</OPTION><OPTION VALUE='July 2001'>July 2001</OPTION><OPTION VALUE='June 2001'>June 2001</OPTION><OPTION VALUE='May 2001'>May 2001</OPTION><OPTION VALUE='April 2001'>April 2001</OPTION><OPTION VALUE='March 2001'>March 2001</OPTION><OPTION VALUE='February 2001'>February 2001</OPTION><OPTION VALUE='January 2001'>January 2001</OPTION><OPTION VALUE='December 2000'>December 2000</OPTION><OPTION VALUE='November 2000'>November 2000</OPTION><OPTION VALUE='October 2000'>October 2000</OPTION><OPTION VALUE='September 2000'>September 2000</OPTION><OPTION VALUE='August 2000'>August 2000</OPTION><OPTION VALUE='July 2000'>July 2000</OPTION><OPTION VALUE='June 2000'>June 2000</OPTION><OPTION VALUE='May 2000'>May 2000</OPTION><OPTION VALUE='April 2000'>April 2000</OPTION><OPTION VALUE='March 2000'>March 2000</OPTION><OPTION VALUE='February 2000'>February 2000</OPTION><OPTION VALUE='January 2000'>January 2000</OPTION><OPTION VALUE='December 1999'>December 1999</OPTION><OPTION VALUE='November 1999'>November 1999</OPTION><OPTION VALUE='October 1999'>October 1999</OPTION><OPTION VALUE='September 1999'>September 1999</OPTION><OPTION VALUE='August 1999'>August 1999</OPTION><OPTION VALUE='July 1999'>July 1999</OPTION><OPTION VALUE='June 1999'>June 1999</OPTION><OPTION VALUE='May 1999'>May 1999</OPTION><OPTION VALUE='April 1999'>April 1999</OPTION><OPTION VALUE='March 1999'>March 1999</OPTION><OPTION VALUE='February 1999'>February 1999</OPTION><OPTION VALUE='January 1999'>January 1999</OPTION><OPTION VALUE='December 1998'>December 1998</OPTION><OPTION VALUE='November 1998'>November 1998</OPTION><OPTION VALUE='October 1998'>October 1998</OPTION><OPTION VALUE='September 1998'>September 1998</OPTION><OPTION VALUE='August 1998'>August 1998</OPTION><OPTION VALUE='July 1998'>July 1998</OPTION><OPTION VALUE='June 1998'>June 1998</OPTION><OPTION VALUE='May 1998'>May 1998</OPTION><OPTION VALUE='April 1998'>April 1998</OPTION><OPTION VALUE='March 1998'>March 1998</OPTION><OPTION VALUE='February 1998'>February 1998</OPTION></SELECT></tr></td></table></TD><TD class=grid1><SPAN id=To style="VISIBILITY: visible; WIDTH: 200px; POSITION: absolute; TOP: 177px"></TD><TD class=grid1><SPAN id=Select style="VISIBILITY: visible; WIDTH: 45px; POSITION: absolute; TOP: 177px"></TD></TR></TABLE>
+
+	        <iframe frameborder=0 width="100%" height=250 id=GridData name=GridData src="FixedChargeGrid.jsp"></iframe>
+
+	      </td>
+	    </tr>
+	  </table><!--table 3-->
+	</form>
+      </td>
+      <td width="1">&nbsp;</td><!--spacer-->
+      <td width="1" valign="top"><!--Right Hand column-->
+      </td>
+    </tr>
+  </table><!--2-->
+    </td>
+  </tr>
+</table><!--1-->
+</body>
+</html>
+
+
